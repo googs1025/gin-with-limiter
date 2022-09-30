@@ -15,7 +15,8 @@ func main() {
 
 	r := gin.New()
 	// 使用装饰器模式。
-	r.GET("/", src.Limiter(10)(test))
+	//r.GET("/", src.Limiter(10)(test))
+	r.GET("/", src.ParamLimiter(5, 1, "name")(test))
 
 	defer func() {
 		r.Run(":8081")

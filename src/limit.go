@@ -2,9 +2,9 @@ package src
 
 import "github.com/gin-gonic/gin"
 
-func Limiter(cap int) func(handler gin.HandlerFunc) gin.HandlerFunc {
+func Limiter(cap int64) func(handler gin.HandlerFunc) gin.HandlerFunc {
 
-	limiter := NewBucket(10)
+	limiter := NewBucket(10, 1)
 	return func(handler gin.HandlerFunc) gin.HandlerFunc {
 		return func(c *gin.Context) {
 			if limiter.IsAccept() {
