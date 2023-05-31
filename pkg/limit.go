@@ -1,10 +1,13 @@
-package src
+package pkg
 
-import "github.com/gin-gonic/gin"
+import (
+	"gin-with-limiting/pkg/bucket"
+	"github.com/gin-gonic/gin"
+)
 
 func Limiter(cap int64) func(handler gin.HandlerFunc) gin.HandlerFunc {
 
-	limiter := NewBucket(10, 1)
+	limiter := bucket.NewBucket(10, 1)
 	return func(handler gin.HandlerFunc) gin.HandlerFunc {
 		return func(c *gin.Context) {
 			if limiter.IsAccept() {

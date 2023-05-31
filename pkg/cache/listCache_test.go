@@ -1,4 +1,4 @@
-package src
+package cache
 
 import (
 	"fmt"
@@ -48,11 +48,11 @@ import (
 func TestWithMaxSizeWithTtlListCache(t *testing.T) {
 	convey.Convey("测试有最大缓存size和过期时间的链表LRU", t, func() {
 		cache := NewListCache(WithMaxSize(4))
-		cache.Put("name", "jiang", time.Second * 7)
-		cache.Put("age", 134, time.Second * 7)
+		cache.Put("name", "jiang", time.Second*7)
+		cache.Put("age", 134, time.Second*7)
 		cache.Put("sex", "man", 0)
-		cache.Put("sex234", "man", time.Second * 7)
-		cache.Put("sex111", "man", time.Second * 7)
+		cache.Put("sex234", "man", time.Second*7)
+		cache.Put("sex111", "man", time.Second*7)
 		fmt.Println("-------------------------")
 		//cache.Print()
 		fmt.Println("-------------------------")
@@ -62,7 +62,6 @@ func TestWithMaxSizeWithTtlListCache(t *testing.T) {
 		//cache.RemoveOldest()
 		//cache.Print()
 		fmt.Println("-------------------------")
-
 
 		for {
 			fmt.Println(cache.Get("name"))

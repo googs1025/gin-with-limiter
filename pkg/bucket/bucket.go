@@ -1,4 +1,4 @@
-package src
+package bucket
 
 import (
 	"log"
@@ -14,10 +14,10 @@ import (
 //}
 
 type Bucket struct {
-	cap int64
-	tokens int64
-	lock sync.Mutex
-	rate int64 // 每秒加入的令牌数
+	cap      int64
+	tokens   int64
+	lock     sync.Mutex
+	rate     int64 // 每秒加入的令牌数
 	lastTime int64
 }
 
@@ -26,9 +26,9 @@ func NewBucket(cap int64, rate int64) *Bucket {
 		log.Fatal("config wrong!")
 	}
 	b := &Bucket{
-		cap: cap,
+		cap:    cap,
 		tokens: cap,
-		rate: rate,
+		rate:   rate,
 	}
 
 	return b
@@ -57,13 +57,12 @@ func NewBucket(cap int64, rate int64) *Bucket {
 //
 //}
 
-//
 // IsAccept 是否接受请求
 func (b *Bucket) IsAccept() bool {
 	b.lock.Lock()
 	defer b.lock.Unlock()
 	now := time.Now().Unix()
-	b.tokens = b.tokens + (now - b.lastTime)* b.rate
+	b.tokens = b.tokens + (now-b.lastTime)*b.rate
 
 	if b.tokens >= b.cap {
 		b.tokens = b.cap
@@ -77,5 +76,3 @@ func (b *Bucket) IsAccept() bool {
 
 	return false
 }
-
-

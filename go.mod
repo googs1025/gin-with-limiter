@@ -1,4 +1,4 @@
-module golanglearning/new_project/gin-with-limiting
+module gin-with-limiting
 
 go 1.18
 

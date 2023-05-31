@@ -1,4 +1,4 @@
-package src
+package cache
 
 import (
 	"container/list"
@@ -8,23 +8,23 @@ import (
 )
 
 type cacheDate struct {
-	key string
-	value interface{}
+	key      string
+	value    interface{}
 	expireAt time.Time
 }
 
 func newCacheData(key string, value interface{}, expireAt time.Time) *cacheDate {
 	return &cacheDate{
-		key: key,
-		value: value,
+		key:      key,
+		value:    value,
 		expireAt: expireAt,
 	}
 }
 
 type ListCache struct {
-	list *list.List
+	list    *list.List
 	listMap map[string]*list.Element
-	lock sync.Mutex
+	lock    sync.Mutex
 	maxsize int // 限制key 的最大数量
 
 }
@@ -40,7 +40,7 @@ type ListCache struct {
 
 func NewListCache(opt ...ListCacheOption) *ListCache {
 	cache := &ListCache{
-		list: list.New(),
+		list:    list.New(),
 		listMap: make(map[string]*list.Element),
 		maxsize: 0,
 	}
@@ -51,6 +51,7 @@ func NewListCache(opt ...ListCacheOption) *ListCache {
 
 type ListCacheOption func(l *ListCache)
 type ListCacheOptions []ListCacheOption
+
 func (lOpts ListCacheOptions) apply(l *ListCache) {
 	for _, f := range lOpts {
 		f(l)
@@ -64,8 +65,6 @@ func WithMaxSize(size int) ListCacheOption {
 		}
 	}
 }
-
-
 
 // Get 获取缓存
 func (l *ListCache) Get(key string) interface{} {
@@ -140,7 +139,7 @@ func (l *ListCache) clear() {
 		for {
 			// 每隔一秒执行
 			l.removeExpire()
-			time.Sleep(time.Second*1)
+			time.Sleep(time.Second * 1)
 		}
 	}()
 }
@@ -156,7 +155,6 @@ func (l *ListCache) RemoveOldest() {
 	l.removeItem(back)
 
 }
-
 
 func (l *ListCache) removeItem(ele *list.Element) {
 	key := ele.Value.(*cacheDate).key

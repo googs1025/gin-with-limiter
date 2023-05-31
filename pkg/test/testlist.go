@@ -10,9 +10,8 @@ import (
 
 func main() {
 
-
 	ll := &list.List{}
-	e1 := ll.PushFront("e1")	// 向头部插入元素
+	e1 := ll.PushFront("e1") // 向头部插入元素
 
 	ll.PushFront("e2")
 
@@ -30,7 +29,5 @@ func main() {
 		}
 		ele = ele.Next()
 	}
-
-
 
 }
